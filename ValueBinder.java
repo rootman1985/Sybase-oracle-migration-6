@@ -53,7 +53,14 @@ public final class ValueBinder {
                 return;
             }
             if (target.equals("clob") || target.equals("nclob")) {
-                ps.setCharacterStream(targetIndex, new java.io.StringReader(value), value.length());
+                // Fast path for short TEXT values: avoid creating a Reader for every row.
+                // Oracle JDBC can bind short Strings to a CLOB column; keep stream binding
+                // for larger values to avoid VARCHAR binding limits and excess memory use.
+                if (value.length() <= 4000) {
+                    ps.setString(targetIndex, value);
+                } else {
+                    ps.setCharacterStream(targetIndex, new java.io.StringReader(value), value.length());
+                }
                 return;
             }
             if (target.equals("varchar2") || target.equals("varchar") || target.equals("char")) {
@@ -146,7 +153,11 @@ public final class ValueBinder {
             String value = rs.getString(m.sourceColumn());
             if (target.equals("varchar2") || target.equals("char") || target.equals("clob")) {
                 if (target.equals("clob")) {
-                    ps.setCharacterStream(targetIndex, new java.io.StringReader(value), value.length());
+                    if (value.length() <= 4000) {
+                        ps.setString(targetIndex, value);
+                    } else {
+                        ps.setCharacterStream(targetIndex, new java.io.StringReader(value), value.length());
+                    }
                 } else {
                     ps.setString(targetIndex, value);
                 }
