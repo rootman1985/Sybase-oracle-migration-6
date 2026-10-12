@@ -1,0 +1,5 @@
+# sourceCatalog,sourceSchema,sourceTable,sourceColumn,sourceType,targetSchema,targetTable,targetColumn,targetType
+CDXHisto,dbo,CDX_HST_ACTEUR_USERS,IdDocument,int,REPORTING,CDX_HST_ACTEUR_USERS_ORO,IdDocument,NUMBER
+CDXHisto,dbo,CDX_HST_ACTEUR_USERS,idDocActeur,smallint,REPORTING,CDX_HST_ACTEUR_USERS_ORO,idDocActeur,NUMBER
+CDXHisto,dbo,CDX_HST_ACTEUR_USERS,login,varchar,REPORTING,CDX_HST_ACTEUR_USERS_ORO,login,VARCHAR2
+CDXHisto,dbo,CDX_HST_ACTEUR_USERS,codeLibelle,char,REPORTING,CDX_HST_ACTEUR_USERS_ORO,codeLibelle,VARCHAR2
